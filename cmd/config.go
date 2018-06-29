@@ -165,6 +165,7 @@ func setP2PNodeConfig(ctx *cli.Context, cfg *config.P2PNodeConfig) {
 
 func setRpcConfig(ctx *cli.Context, cfg *config.RpcConfig) {
 	cfg.EnableHttpJsonRpc = !ctx.Bool(utils.GetFlagName(utils.RPCDisabledFlag))
+	cfg.HttpJsonHost = ctx.GlobalString(utils.GetFlagName(utils.RPCHostFlag))
 	cfg.HttpJsonPort = ctx.GlobalUint(utils.GetFlagName(utils.RPCPortFlag))
 	cfg.HttpLocalPort = ctx.GlobalUint(utils.GetFlagName(utils.RPCLocalProtFlag))
 }
@@ -180,6 +181,9 @@ func setWebSocketConfig(ctx *cli.Context, cfg *config.WebSocketConfig) {
 }
 
 func SetRpcPort(ctx *cli.Context) {
+    if ctx.IsSet(utils.GetFlagName(utils.RPCHostFlag)) {
+        config.DefConfig.Rpc.HttpJsonHost = ctx.String(utils.GetFlagName(utils.RPCHostFlag))
+    } 
 	if ctx.IsSet(utils.GetFlagName(utils.RPCPortFlag)) {
 		config.DefConfig.Rpc.HttpJsonPort = ctx.Uint(utils.GetFlagName(utils.RPCPortFlag))
 	}

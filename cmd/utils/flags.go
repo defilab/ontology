@@ -156,6 +156,11 @@ var (
 		Name:  "disablerpc",
 		Usage: "Using to shut down the rpc server. The Ontology node starts the rpc server by default at startup.",
 	}
+	RPCHostFlag = cli.StringFlag{
+		Name:  "rpchost",
+		Usage: "Json rpc server",
+		Value: config.DEFAULT_RPC_HOST,
+	} 
 	RPCPortFlag = cli.UintFlag{
 		Name:  "rpcport",
 		Usage: "Json rpc server listening port",

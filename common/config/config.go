@@ -19,6 +19,7 @@
 package config
 
 import (
+	"os"
 	"encoding/hex"
 	"fmt"
 	"github.com/ontio/ontology-crypto/keypair"
@@ -48,6 +49,7 @@ const (
 	DEFAULT_MAX_LOG_SIZE                    = 100 //MByte
 	DEFAULT_NODE_PORT                       = uint(20338)
 	DEFAULT_CONSENSUS_PORT                  = uint(20339)
+	DEFAULT_RPC_HOST						= "http://localhost"
 	DEFAULT_RPC_PORT                        = uint(20336)
 	DEFAULT_RPC_LOCAL_PORT                  = uint(20337)
 	DEFAULT_REST_PORT                       = uint(20334)
@@ -88,6 +90,15 @@ var NETWORK_NAME = map[uint32]string{
 	NETWORK_ID_POLARIS_NET: NETWORK_NAME_POLARIS_NET,
 	NETWORK_ID_SOLO_NET:    NETWORK_NAME_SOLO_NET,
 }
+
+func GetEnv(key, fallback string) string {
+    value := os.Getenv(key)
+    if len(value) == 0 {
+        return fallback
+    }
+    return value
+}
+
 
 func GetNetworkMagic(id uint32) uint32 {
 	nid, ok := NETWORK_MAGIC[id]
@@ -443,6 +454,7 @@ type P2PNodeConfig struct {
 
 type RpcConfig struct {
 	EnableHttpJsonRpc bool
+	HttpJsonHost      string
 	HttpJsonPort      uint
 	HttpLocalPort     uint
 }
@@ -506,6 +518,7 @@ func NewOntologyConfig() *OntologyConfig {
 		},
 		Rpc: &RpcConfig{
 			EnableHttpJsonRpc: true,
+			HttpJsonHost:      GetEnv("JSON_RPC_HOST", DEFAULT_RPC_HOST),
 			HttpJsonPort:      DEFAULT_RPC_PORT,
 			HttpLocalPort:     DEFAULT_RPC_LOCAL_PORT,
 		},

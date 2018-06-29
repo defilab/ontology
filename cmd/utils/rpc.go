@@ -57,7 +57,7 @@ func sendRpcRequest(method string, params []interface{}) ([]byte, error) {
 		return nil, fmt.Errorf("JsonRpcRequest json.Marsha error:%s", err)
 	}
 
-	addr := fmt.Sprintf("http://localhost:%d", config.DefConfig.Rpc.HttpJsonPort)
+	addr := fmt.Sprintf("%s:%d", config.DefConfig.Rpc.HttpJsonHost, config.DefConfig.Rpc.HttpJsonPort)
 	resp, err := http.Post(addr, "application/json", strings.NewReader(string(data)))
 	if err != nil {
 		return nil, fmt.Errorf("http post request:%s error:%s", data, err)
